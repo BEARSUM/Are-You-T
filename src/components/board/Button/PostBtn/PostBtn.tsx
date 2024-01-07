@@ -2,13 +2,13 @@ import { Post } from "./PostBtn.styles";
 import { ReactComponent as PostBtnSvg } from "@/assets/img/post_button.svg";
 
 interface PostBtnProps {
-  setOpenBoardPost: (value: boolean) => void;
+  openModal: (value: "" | "post") => void;
 }
-export default function PostBtn({ setOpenBoardPost }: PostBtnProps) {
+export default function PostBtn({ openModal }: PostBtnProps) {
   return (
     <Post
       onClick={() => {
-        setOpenBoardPost(true);
+        openModal("post");
       }}
     >
       <PostBtnSvg />
