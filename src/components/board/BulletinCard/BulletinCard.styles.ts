@@ -68,3 +68,6 @@ export const FooterCol = tw.div`
 export const Category = tw.div`
   font-medium
 `;
+export const Buttons = tw.div`
+  flex gap-[8px]
+`;

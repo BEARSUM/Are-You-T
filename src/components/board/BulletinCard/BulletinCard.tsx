@@ -1,19 +1,7 @@
 import HeartBtn from "@/components/board/Button/HeartBtn/HeartBtn";
-
-import {
-  Card,
-  Header,
-  Title,
-  Main,
-  Content,
-  Date,
-  Divider,
-  Footer,
-  FooterCol,
-  Category
-} from "./BulletinCard.styles";
-
 import CommentBtn from "../Button/CommentBtn/CommentBtn";
+
+import * as S from "./BulletinCard.styles";
 
 interface BulletinCardProps {
   id: string;
@@ -36,7 +24,6 @@ export default function BulletinCard({
   createdAt
 }: BulletinCardProps) {
   //내용 글자수 제한
-
   const toggleEllipsis = (str: string, limit: number) => {
     const strToArr = Array.from(str);
     if (strToArr.length > limit) {
@@ -54,44 +41,43 @@ export default function BulletinCard({
       return `${createdAt}일 전`;
     }
   };
-  // 이벤트 버블링을 막음
-  const handleClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
+
   return (
-    <Card
+    <S.Card
       id={id}
       style={{ backgroundColor: color }}
-      onClick={() => {
-        handleCardClick(id);
+      onClick={(e) => {
+        if (e.currentTarget === e.target) handleCardClick(id); // 이벤트 버블링을 막음
       }}
     >
       <div>
-        <Header>
-          <Title>{toggleEllipsis(title, 7)}</Title>
-        </Header>
+        <S.Header>
+          <S.Title>{toggleEllipsis(title, 7)}</S.Title>
+        </S.Header>
 
-        <Main>
-          <Content>{toggleEllipsis(content, 26)}</Content>
-        </Main>
+        <S.Main>
+          <S.Content>{toggleEllipsis(content, 26)}</S.Content>
+        </S.Main>
       </div>
 
-      <Footer>
+      <S.Footer>
         <div>
-          <Date>{calculateDate(createdAt)}</Date>
-          <Divider />
+          <S.Date>{calculateDate(createdAt)}</S.Date>
+          <S.Divider />
         </div>
-        <FooterCol onClick={handleClick}>
-          <Category>{category}</Category>
-          <HeartBtn id={id} like={like} />
-          <CommentBtn
-            onClick={() => {
-              handleCardClick(id);
-            }}
-            id={id}
-          />
-        </FooterCol>
-      </Footer>
-    </Card>
+        <S.FooterCol>
+          <S.Category>{category}</S.Category>
+          <S.Buttons>
+            <HeartBtn id={id} like={like} />
+            <CommentBtn
+              onClick={() => {
+                handleCardClick(id);
+              }}
+              id={id}
+            />
+          </S.Buttons>
+        </S.FooterCol>
+      </S.Footer>
+    </S.Card>
   );
 }
