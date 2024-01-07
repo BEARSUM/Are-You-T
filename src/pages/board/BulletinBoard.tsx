@@ -38,52 +38,45 @@ export default function BulletinBoard() {
   };
 
   // 무한스크롤 => count : 불러오는 데이터 갯수 , skipCount : 생략하는 데이터 갯수
-  const [count, setCount] = useState(10);
+  const count = useRef(10);
   const [skipCount, setSkipCount] = useState(0);
 
-  // 무한스크롤 => 더 불러올 데이터가 없을 때 skipCount 상태의 증가를 막기 위한 state
+  // 무한스크롤 => 더 불러올 데이터가 없을 때 loadData를 막기 위한 state
   const [disableLoadData, setDisableLoadDate] = useState(false);
-  // 임시 : isLoading 넣어서 true일때만 무한스크롤 호출
-  const [isLoading, setIsLoading] = useState(false);
 
   async function getPostings() {
-    if (isLoading) return;
-
-    // console.log({ isLoading });
     try {
-      setIsLoading(true);
-
       const response = await axiosRequest.requestAxios<ResData<Board[]>>(
         "get",
         mbti
-          ? `/board/${mbti}?count=${count}&skipCount=${skipCount}`
-          : `/board/?count=${count}&skipCount=${skipCount}`
+          ? `/board/${mbti}?count=${count.current}&skipCount=${skipCount}`
+          : `/board/?count=${count.current}&skipCount=${skipCount}`
       );
 
-      // 더 불러올 데이터가 없어서 빈배열일 때
       if (!response.data.length) {
         setDisableLoadDate(true);
         return;
       }
-      // 데이터 이전 값에 현재 값을 더함
-      setPostings((prev) => [...prev, ...response.data]);
+
+      if (!skipCount) setPostings(response.data);
+      else setPostings((prev) => [...prev, ...response.data]);
+
+      setSkipCount((prev) => prev + 10);
     } catch (error) {
       console.error(error);
-    } finally {
-      setIsLoading(false);
     }
   }
 
-  //mbti변경모달 관련
-  const handleClickModal = useCallback(
-    ({ currentTarget, target }: React.MouseEvent<HTMLDivElement>) => {
-      if (currentTarget === target) {
-        setOpenModalType("");
-      }
-    },
-    [setOpenModalType]
-  );
-  const handleThisConfirm = (selectedMbti: string[]) => {
+  const closeMbtiModal = ({
+    currentTarget,
+    target
+  }: React.MouseEvent<HTMLDivElement>) => {
+    if (currentTarget === target) {
+      setOpenModalType("");
+    }
+  };
+
+  const selectMbti = (selectedMbti: string[]) => {
     setOpenModalType("");
     const mbti = selectedMbti.join("");
     goDetailPage(mbti);
@@ -91,29 +84,21 @@ export default function BulletinBoard() {
 
   const { mbti } = useParams() as { mbti: string };
 
-  // 파라미터로 mbti가 전달되자마자 게시글 데이터 업데이트
-  // skipCount 과 mbti 값이 변경될 때마다 데이터 호출
   useEffect(() => {
     getPostings();
-    // console.log("임시");
-  }, [mbti, skipCount]);
-
-  // console.log(skipCount);
+    // console.log("mbti", mbti);
+  }, [mbti]);
 
   // 무한 스크롤 훅
   const observerRef = useRef<HTMLDivElement | null>(null);
 
   const loadData = () => {
-    if (disableLoadData || isLoading) return;
-    setSkipCount((prev) => prev + 10);
+    if (disableLoadData) return;
+    getPostings();
     // console.log(skipCount, "skipCount");
   };
 
-  const { setTargetRef } = useInfiniteScroll(loadData, [
-    skipCount,
-    mbti,
-    isLoading
-  ]);
+  const { setTargetRef } = useInfiniteScroll(loadData, [skipCount]);
 
   useEffect(() => {
     if (observerRef.current) {
@@ -148,8 +133,8 @@ export default function BulletinBoard() {
             <MbtiTypesModal
               isButton
               defaultMbti={["I", "N", "F", "P"]}
-              onCloseModal={handleClickModal}
-              onSelectMbti={handleThisConfirm}
+              onCloseModal={closeMbtiModal}
+              onSelectMbti={selectMbti}
             />
           )}
           {openModalType === "post" && (
