@@ -2,15 +2,13 @@ import { ChangeMbti } from "./ChangeMbtiBtn.styles";
 import { ReactComponent as ChangeMbtiBtnSvg } from "@/assets/img/change_mbti_button.svg";
 
 interface ChangeMbtiBtnProps {
-  setOpenMbtiModal: (value: boolean) => void;
+  openModal: (value: "" | "mbti") => void;
 }
-export default function ChangeMbtiBtn({
-  setOpenMbtiModal
-}: ChangeMbtiBtnProps) {
+export default function ChangeMbtiBtn({ openModal }: ChangeMbtiBtnProps) {
   return (
     <ChangeMbti
       onClick={() => {
-        setOpenMbtiModal(true);
+        openModal("mbti");
       }}
     >
       <ChangeMbtiBtnSvg />

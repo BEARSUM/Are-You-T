@@ -152,7 +152,7 @@ function StatsMbti() {
           <>
             <div className="flex place-content-between items-center py-[20px]">
               <h3 className="text-5xl font-bold">{stats.mbtiType}</h3>
-              <ChangeMbtiBtn setOpenMbtiModal={() => setIsOpenModal(true)} />
+              <ChangeMbtiBtn openModal={() => setIsOpenModal(true)} />
             </div>
             <StatsMbtiButtons
               targetChar={mbtiType[charIdx]}

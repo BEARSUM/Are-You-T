@@ -15,8 +15,7 @@ import MbtiColorChip from "@/components/board/MbtiColorChip/MbtiColorChip";
 import * as S from "./BulletinBoard.styles";
 
 export default function BulletinBoard() {
-  const [openMbtiModal, setOpenMbtiModal] = useState<boolean>(false);
-  const [openBoardPost, setOpenBoardPost] = useState<boolean>(false);
+  const [openModalType, setOpenModalType] = useState<"mbti" | "post" | "">("");
 
   const [postings, setPostings] = useState<Board[]>([]);
 
@@ -27,10 +26,6 @@ export default function BulletinBoard() {
   };
   const goCardDetailPage = (selectedId: string): void => {
     nav(`/board/cardDetail/${selectedId}`);
-  };
-
-  const handleCardClick = (id: string): void => {
-    goCardDetailPage(id);
   };
 
   //게시글 작성 날짜 양식-> *일 전으로 변경
@@ -83,13 +78,13 @@ export default function BulletinBoard() {
   const handleClickModal = useCallback(
     ({ currentTarget, target }: React.MouseEvent<HTMLDivElement>) => {
       if (currentTarget === target) {
-        setOpenMbtiModal(false);
+        setOpenModalType("");
       }
     },
-    [setOpenMbtiModal]
+    [setOpenModalType]
   );
   const handleThisConfirm = (selectedMbti: string[]) => {
-    setOpenMbtiModal(false);
+    setOpenModalType("");
     const mbti = selectedMbti.join("");
     goDetailPage(mbti);
   };
@@ -134,7 +129,7 @@ export default function BulletinBoard() {
         <BulletinCard
           key={posting._id}
           id={posting._id}
-          handleCardClick={handleCardClick}
+          handleCardClick={goCardDetailPage}
           title={posting.title}
           content={posting.content}
           category={posting.category}
@@ -147,30 +142,31 @@ export default function BulletinBoard() {
 
   return (
     <>
-      {openBoardPost ? (
-        <BoardPost
-          onThisClose={() => setOpenBoardPost(false)}
-          onThisComplete={(mbti) => {
-            getPostings();
-            setOpenBoardPost(false);
-            setSkipCount(0); // skipCount를 0으로 초기화시킴으로써 새로 재조회
-            goDetailPage(mbti);
-          }}
-          thisMbti={mbti ? mbti : "INFP"}
-        />
+      {openModalType !== "" ? (
+        <S.ModalWrap>
+          {openModalType === "mbti" && (
+            <MbtiTypesModal
+              isButton
+              defaultMbti={["I", "N", "F", "P"]}
+              onCloseModal={handleClickModal}
+              onSelectMbti={handleThisConfirm}
+            />
+          )}
+          {openModalType === "post" && (
+            <BoardPost
+              onThisClose={() => setOpenModalType("")}
+              onThisComplete={(mbti) => {
+                getPostings();
+                setOpenModalType("");
+                setSkipCount(0); // skipCount를 0으로 초기화시킴으로써 새로 재조회
+                goDetailPage(mbti);
+              }}
+              thisMbti={mbti ? mbti : "INFP"}
+            />
+          )}
+        </S.ModalWrap>
       ) : (
         <S.Container>
-          <div>
-            {openMbtiModal && (
-              <MbtiTypesModal
-                isButton
-                defaultMbti={["I", "N", "F", "P"]}
-                onCloseModal={handleClickModal}
-                onSelectMbti={handleThisConfirm}
-              />
-            )}
-          </div>
-
           <S.Header>
             {mbti ? (
               <S.MbtiTitle>
@@ -181,8 +177,8 @@ export default function BulletinBoard() {
               <S.Title>MBTI 담벼락</S.Title>
             )}
             <S.HeaderBtns>
-              <PostBtn setOpenBoardPost={setOpenBoardPost} />
-              <ChangeMbtiBtn setOpenMbtiModal={setOpenMbtiModal} />
+              <PostBtn openModal={setOpenModalType} />
+              <ChangeMbtiBtn openModal={setOpenModalType} />
             </S.HeaderBtns>
           </S.Header>
           <S.Main>
@@ -193,7 +189,7 @@ export default function BulletinBoard() {
                     <BulletinCard
                       key={posting._id + index}
                       id={posting._id}
-                      handleCardClick={handleCardClick}
+                      handleCardClick={goCardDetailPage}
                       title={posting.title}
                       content={posting.content}
                       category={posting.category}

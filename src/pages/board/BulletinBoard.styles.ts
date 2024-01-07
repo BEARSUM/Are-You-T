@@ -1,5 +1,9 @@
 import tw, { styled } from "twin.macro";
 
+export const ModalWrap = styled.div`
+  width: 100%;
+  height: 100%;
+`;
 export const Main = styled.main`
   &::-webkit-scrollbar {
     display: none;
