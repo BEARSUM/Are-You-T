@@ -16,53 +16,41 @@ import * as S from "./BulletinBoard.styles";
 
 export default function BulletinBoard() {
   const [openMbtiModal, setOpenMbtiModal] = useState<boolean>(false);
-
-  //전체 게시글
-  const [postings, setPostings] = useState<Board[]>([]);
-  //게시글 작성 모달 상태
   const [openBoardPost, setOpenBoardPost] = useState<boolean>(false);
-  //게시글 작성완료시 유형별 게시판페이지로 이동
+
+  const [postings, setPostings] = useState<Board[]>([]);
+
   const nav = useNavigate();
+
   const goDetailPage = (mbti: string): void => {
     nav(`/board/${mbti}`);
   };
-  //게시글 상세페이지 이동
   const goCardDetailPage = (selectedId: string): void => {
     nav(`/board/cardDetail/${selectedId}`);
   };
+
   const handleCardClick = (id: string): void => {
     goCardDetailPage(id);
   };
 
   //게시글 작성 날짜 양식-> *일 전으로 변경
   const calculateDaysDiff = (date: Date): number => {
-    //서버 저장되는 시간이 UTC
-    //Date(UTC) -> local시간
     const pastDate: Date = new Date(date); //local(한국표준시)
     const currentDate: Date = new Date(); //local(한국표준시)
+    const diffTime: number = currentDate.getTime() - pastDate.getTime();
 
-    const pastLocalTime = pastDate.getTime();
-    const currentLocalTime = currentDate.getTime();
-
-    const diffDate: number = currentLocalTime - pastLocalTime;
-
-    // console.log("서버시간", date);
-    // console.log("작성날짜", pastLocalTime);
-    // console.log("현재날짜", currentLocalTime);
-    // console.log("날짜 차이", diffDate);
-
-    return Math.floor(diffDate / (1000 * 60 * 60 * 24));
+    return Math.floor(diffTime / (1000 * 60 * 60 * 24));
   };
 
   // 무한스크롤 => count : 불러오는 데이터 갯수 , skipCount : 생략하는 데이터 갯수
   const [count, setCount] = useState(10);
   const [skipCount, setSkipCount] = useState(0);
+
   // 무한스크롤 => 더 불러올 데이터가 없을 때 skipCount 상태의 증가를 막기 위한 state
   const [disableLoadData, setDisableLoadDate] = useState(false);
   // 임시 : isLoading 넣어서 true일때만 무한스크롤 호출
   const [isLoading, setIsLoading] = useState(false);
 
-  // 게시글 get 요청
   async function getPostings() {
     if (isLoading) return;
 
@@ -92,7 +80,6 @@ export default function BulletinBoard() {
   }
 
   //mbti변경모달 관련
-
   const handleClickModal = useCallback(
     ({ currentTarget, target }: React.MouseEvent<HTMLDivElement>) => {
       if (currentTarget === target) {
@@ -107,9 +94,6 @@ export default function BulletinBoard() {
     goDetailPage(mbti);
   };
 
-  //Detail 페이지에 필요한 변수,메소드
-
-  //파라미터 :mbti 가져오기
   const { mbti } = useParams() as { mbti: string };
 
   // 파라미터로 mbti가 전달되자마자 게시글 데이터 업데이트
@@ -142,22 +126,6 @@ export default function BulletinBoard() {
     }
   }, [observerRef, setTargetRef]);
 
-  //전체 게시글
-  // const boardAll = postings.map((posting) => {
-  //   return (
-  //     <BulletinCard
-  //       key={posting._id}
-  //       id={posting._id}
-  //       handleCardClick={handleCardClick}
-  //       title={posting.title}
-  //       content={posting.content}
-  //       category={posting.category}
-  //       color={posting.color}
-  //       like={posting.like}
-  //       createdAt={calculateDaysDiff(posting.createdAt)}
-  //     />
-  //   );
-  // });
   //유형별 게시글
   const boardDetail = postings
     .filter((posting) => posting.category === mbti)
