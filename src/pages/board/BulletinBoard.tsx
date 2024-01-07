@@ -12,16 +12,7 @@ import BoardPost from "@/components/board/BoardPost/BoardPost";
 import MbtiTypesModal from "@/components/common/MbtiTypesModal/MbtiTypesModal";
 import MbtiColorChip from "@/components/board/MbtiColorChip/MbtiColorChip";
 
-import {
-  Main,
-  BoardDiv,
-  Header,
-  HeaderBtns,
-  MbtiTitle,
-  Title,
-  BulletinCardWrap
-} from "./BulletinBoard.styles";
-import LoadingIndicator from "@/components/common/LoadingIndicator/LoadingIndicator";
+import * as S from "./BulletinBoard.styles";
 
 export default function BulletinBoard() {
   const [openMbtiModal, setOpenMbtiModal] = useState<boolean>(false);
@@ -200,7 +191,7 @@ export default function BulletinBoard() {
           thisMbti={mbti ? mbti : "INFP"}
         />
       ) : (
-        <BoardDiv>
+        <S.Container>
           <div>
             {openMbtiModal && (
               <MbtiTypesModal
@@ -212,22 +203,22 @@ export default function BulletinBoard() {
             )}
           </div>
 
-          <Header>
+          <S.Header>
             {mbti ? (
-              <MbtiTitle>
-                <Title>{mbti}</Title>
+              <S.MbtiTitle>
+                <S.Title>{mbti}</S.Title>
                 <MbtiColorChip selectedMbti={mbti} />
-              </MbtiTitle>
+              </S.MbtiTitle>
             ) : (
-              <Title>MBTI 담벼락</Title>
+              <S.Title>MBTI 담벼락</S.Title>
             )}
-            <HeaderBtns>
+            <S.HeaderBtns>
               <PostBtn setOpenBoardPost={setOpenBoardPost} />
               <ChangeMbtiBtn setOpenMbtiModal={setOpenMbtiModal} />
-            </HeaderBtns>
-          </Header>
-          <Main>
-            <BulletinCardWrap>
+            </S.HeaderBtns>
+          </S.Header>
+          <S.Main>
+            <S.CardsWrap>
               {mbti
                 ? boardDetail
                 : postings.map((posting, index) => (
@@ -251,9 +242,9 @@ export default function BulletinBoard() {
                   border: "none"
                 }}
               />
-            </BulletinCardWrap>
-          </Main>
-        </BoardDiv>
+            </S.CardsWrap>
+          </S.Main>
+        </S.Container>
       )}
     </>
   );

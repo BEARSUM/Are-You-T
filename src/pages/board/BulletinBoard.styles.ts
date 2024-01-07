@@ -1,6 +1,6 @@
 import tw, { styled } from "twin.macro";
 
-export const Main = styled.div`
+export const Main = styled.main`
   &::-webkit-scrollbar {
     display: none;
   }
@@ -8,7 +8,7 @@ export const Main = styled.div`
   overflow: auto;
   padding-bottom: 71px;
 `;
-export const BoardDiv = tw.div`
+export const Container = tw.div`
   flex flex-col
   h-screen w-[390px] bg-black
   px-[17px] mx-auto
@@ -29,7 +29,7 @@ export const Title = tw.div`
   text-[43px] leading-[51px]  font-bold text-white
 `;
 
-export const BulletinCardWrap = tw.div`
+export const CardsWrap = tw.div`
   flex flex-wrap justify-start gap-[15px]
   mx-auto
 `;
