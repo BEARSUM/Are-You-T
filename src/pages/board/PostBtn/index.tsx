@@ -1,4 +1,4 @@
-import { Post } from "./PostBtn.styles";
+import { Post } from "./index.styles";
 import { ReactComponent as PostBtnSvg } from "@/assets/img/post_button.svg";
 
 interface PostBtnProps {

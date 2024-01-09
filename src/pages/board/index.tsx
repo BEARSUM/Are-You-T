@@ -1,18 +1,18 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useInfiniteScroll from "@/hooks/useInfinitiScroll";
 
 import axiosRequest from "@/api/index";
 import { ResData, Board } from "@/@types/index";
 
-import BulletinCard from "@/components/board/BulletinCard/BulletinCard";
-import PostBtn from "@/components/board/Button/PostBtn/PostBtn";
-import ChangeMbtiBtn from "@/components/board/Button/ChangeMbtiBtn/ChangeMbtiBtn";
-import BoardPost from "@/components/board/BoardPost/BoardPost";
+import BulletinCard from "@/pages/board/BulletinCard";
+import PostBtn from "./PostBtn";
+import ChangeMbtiBtn from "../../components/common/ChangeMbtiBtn";
+import BoardPost from "./BoardPost";
 import MbtiTypesModal from "@/components/common/MbtiTypesModal/MbtiTypesModal";
-import MbtiColorChip from "@/components/board/MbtiColorChip/MbtiColorChip";
+import MbtiColorChip from "./MbtiColorChip";
 
-import * as S from "./BulletinBoard.styles";
+import * as S from "./index.styles";
 
 export default function BulletinBoard() {
   const [openModalType, setOpenModalType] = useState<"mbti" | "post" | "">("");

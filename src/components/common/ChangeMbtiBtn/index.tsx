@@ -1,4 +1,4 @@
-import { ChangeMbti } from "./ChangeMbtiBtn.styles";
+import { ChangeMbti } from "./index.styles";
 import { ReactComponent as ChangeMbtiBtnSvg } from "@/assets/img/change_mbti_button.svg";
 
 interface ChangeMbtiBtnProps {

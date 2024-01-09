@@ -9,11 +9,11 @@ import {
   CommentEditBottomDetail,
   CommentCharacterWrap,
   CommentCharacterModalBg
-} from "@/components/comment/CommentEdit.styles";
+} from "@/pages/board/cardDetail/CommentModal/CommentEdit/index.styles";
 import { ResData, CommentEditProps } from "@/@types";
-import { CommentModalBg } from "./CommentContent.styles";
-import { ModalBg } from "../common/MbtiTypesModal/MbtiTypesModal.styles";
-import { ModalWrapCenter } from "../board/BoardPost/BoardPost.styles";
+import { CommentModalBg } from "../CommentContent/index.styles";
+import { ModalBg } from "@/components/common/MbtiTypesModal/MbtiTypesModal.styles";
+import { ModalWrapCenter } from "@/pages/board/BoardPost/index.styles";
 import CommentCharacter from "@/components/common/CommentCharacter";
 
 // 모달 배경 닫기(MbtiTypesModal은 제외)

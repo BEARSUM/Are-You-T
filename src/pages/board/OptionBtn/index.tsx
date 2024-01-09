@@ -5,7 +5,7 @@ import {
   MenuList,
   EditBtn,
   DeleteBtn
-} from "./OptionBtn.styles";
+} from "./index.styles";
 
 interface OptionBtnProps {
   selectModal: (modal: string) => void;

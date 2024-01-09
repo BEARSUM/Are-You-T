@@ -4,15 +4,15 @@ import { useParams } from "react-router-dom";
 import axiosRequest from "@/api/index";
 import { ResData, Board, BoardPassword } from "@/@types/index";
 
-import HeartBtn from "@/components/board/Button/HeartBtn/HeartBtn";
+import HeartBtn from "../HeartBtn";
 import { ReactComponent as BackIcon } from "@/assets/img/left_line.svg";
-import OptionBtn from "@/components/board/Button/OptionBtn/OptionBtn";
+import OptionBtn from "../OptionBtn";
 import PwCheckModal from "@/components/common/PwCheckModal/PwCheckModal";
-import BoardPost from "@/components/board/BoardPost/BoardPost";
-import CommentModal from "@/components/comment/CommentModal";
-import CommentBtn from "@/components/board/Button/CommentBtn/CommentBtn";
+import BoardPost from "../BoardPost";
+import CommentModal from "@/pages/board/cardDetail/CommentModal";
+import CommentBtn from "../CommentBtn";
 
-import * as S from "./CardDetail.styles";
+import * as S from "./index.styles";
 
 export default function CardDetail() {
   const { selectedId } = useParams() as { selectedId: string };

@@ -7,25 +7,25 @@ import {
   RepliesCharacter,
   CommentContentOption,
   CommentContentText
-} from "@/components/comment/CommentContent.styles";
-import { CommentEditPassWord } from "@/components/comment/CommentEditPassWord";
+} from "@/pages/board/cardDetail/CommentModal/CommentContent/index.styles";
+import { CommentEditPassWord } from "./CommentEditPassWord";
 import { ReactComponent as Setting } from "@/assets/img/comment_setting.svg";
 import CommentCharacter from "@/components/common/CommentCharacter";
 import axiosRequest from "@/api";
 import { ResData, Comment, CommentPostData } from "@/@types";
-import CommentHeartBtn from "../board/Button/HeartBtn/CommentHeartBtn";
+import CommentHeartBtn from "@/pages/board/HeartBtn/CommentHeartBtn";
 import {
   CommentEditBottom,
   CommentEditBottomDetail,
   CommentEditBox,
   CommentEditTop,
   CommentEditWrap
-} from "./CommentEdit.styles";
+} from "../CommentEdit/index.styles";
 import {
   CommentCharacterModalBg,
   CommentCharacterWrap
-} from "./CommentPost.styles";
-import AlertModal from "../common/AlertModal/AlertModal";
+} from "../CommentEdit/index.styles";
+import AlertModal from "@/components/common/AlertModal/AlertModal";
 
 interface BoardIdProps {
   boardId: string;

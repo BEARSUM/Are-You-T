@@ -4,11 +4,7 @@ import axiosRequest from "@/api/index";
 import { ResData, Comment } from "@/@types/index";
 
 import { ReactComponent as CommentIcon } from "@/assets/img/comment.svg";
-import {
-  CommentIconWrap,
-  CommentNumber,
-  CommentWrap
-} from "./CommentBtn.styles";
+import { CommentIconWrap, CommentNumber, CommentWrap } from "./index.styles";
 
 interface CommentBtnProps {
   id: string;

@@ -1,7 +1,7 @@
-import { CommentContent } from "@/components/comment/CommentContent";
-import { CommentPostContent } from "@/components/comment/CommentPost";
+import { CommentContent } from "@/pages/board/cardDetail/CommentModal/CommentContent";
+import { CommentPostContent } from "./CommentPost";
 
-import * as S from "@/components/comment/CommentModal.styles";
+import * as S from "@/pages/board/cardDetail/CommentModal/index.styles";
 
 function CommentModal({
   onClose,

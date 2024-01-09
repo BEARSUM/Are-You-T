@@ -8,7 +8,7 @@ import { ResData } from "@/@types";
 import LoadingIndicator from "@/components/common/LoadingIndicator/LoadingIndicator";
 import Character from "@/components/common/Character";
 import MbtiTypesModal from "@/components/common/MbtiTypesModal/MbtiTypesModal";
-import ChangeMbtiBtn from "@/components/board/Button/ChangeMbtiBtn/ChangeMbtiBtn";
+import ChangeMbtiBtn from "@/components/common/ChangeMbtiBtn";
 import Pagination from "@/components/pagination/Pagination";
 import StatsMbtiButtons from "@/components/stats/StatsMbtiButtons/StatsMbtiButtons";
 import { barOptions } from "@/constants/charts";
