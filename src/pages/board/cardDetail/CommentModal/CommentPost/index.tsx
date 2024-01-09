@@ -9,11 +9,11 @@ import {
   CommentPostBottomDetail,
   CommentCharacterWrap,
   CommentCharacterModalBg
-} from "@/components/comment/CommentPost.styles";
+} from "@/pages/board/cardDetail/CommentModal/CommentPost/index.styles";
 import CommentCharacter from "@/components/common/CommentCharacter";
 import { ResData, CommentPostData } from "@/@types";
-import { ModalWrapCenter } from "../board/BoardPost/BoardPost.styles";
-import { ModalBg } from "../common/MbtiTypesModal/MbtiTypesModal.styles";
+import { ModalWrapCenter } from "@/pages/board/BoardPost/index.styles";
+import { ModalBg } from "@/components/common/MbtiTypesModal/MbtiTypesModal.styles";
 
 // 댓글 캐릭터
 function CommentCharacterSelector({

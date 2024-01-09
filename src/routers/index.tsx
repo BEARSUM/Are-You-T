@@ -5,8 +5,8 @@ import Home from "@/pages/home/Home";
 import NotFound from "@/pages/NotFound";
 import Test from "@/pages/test/test/Test";
 import TestResult from "@/pages/test/TestResult/TestResult";
-import BulletinBoard from "@/pages/board/BulletinBoard";
-import CardDetail from "@/pages/board/card/CardDetail";
+import BulletinBoard from "@/pages/board";
+import CardDetail from "@/pages/board/cardDetail";
 import Stats from "@/pages/stats/Stats";
 import StatsMbti from "@/pages/stats/statsMbti/StatsMbti";
 

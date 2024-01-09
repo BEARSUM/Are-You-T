@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axiosRequest from "@/api/index";
 import { ResData, Board } from "@/@types/index";
 
-import { Heart, HeartIcon, HeartCount } from "./HeartBtn.styles";
+import { Heart, HeartIcon, HeartCount } from "./index.styles";
 import { ReactComponent as HeartButtonSvg } from "@/assets/img/heart_button.svg";
 
 interface HeartBtnProps {

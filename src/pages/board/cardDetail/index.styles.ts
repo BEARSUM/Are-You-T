@@ -17,7 +17,7 @@ export const Category = tw.div`
   text-2xl font-bold
   my-3.5
   `;
-export const Main = styled.div`
+export const Main = styled.main`
   ${tw`w-[330px] rounded-3xl h-[80%]
     bg-white opacity-100
     flex flex-col`}
@@ -68,6 +68,9 @@ export const Footer = tw.div`
   flex flex-row justify-between items-center
   w-full
   px-6 pt-[10px]
+`;
+export const FooterCol = tw.div`
+  flex  gap-[16px]
 `;
 export const CreateDate = tw.div`
   font-extralight

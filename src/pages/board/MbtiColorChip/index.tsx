@@ -1,6 +1,6 @@
 import colorData from "@/constants/bgColor";
 
-import { MbtiColor } from "./MbtiColorChip.styles";
+import { MbtiColor } from "./index.styles";
 
 interface MbtiColorChipProps {
   selectedMbti: string;

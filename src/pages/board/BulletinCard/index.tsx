@@ -1,7 +1,7 @@
-import HeartBtn from "@/components/board/Button/HeartBtn/HeartBtn";
-import CommentBtn from "../Button/CommentBtn/CommentBtn";
+import HeartBtn from "../HeartBtn";
+import CommentBtn from "../CommentBtn";
 
-import * as S from "./BulletinCard.styles";
+import * as S from "./index.styles";
 
 interface BulletinCardProps {
   id: string;

@@ -21,7 +21,7 @@ import {
   Button,
   BorderButton,
   PassWordWrap
-} from "./BoardPost.styles";
+} from "./index.styles";
 
 // 모달 배경부분(ModalBg) 클릭하면 모달창이 꺼지고 모달컴포넌트 안에서 선택된 state값들을 부모(BoardPost)에게 보내줌
 
