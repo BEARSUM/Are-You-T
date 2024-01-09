@@ -1,8 +1,5 @@
-import { useState, useEffect, ReactNode } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-
-import { ReactComponent as AlertIcon } from "@/assets/img/alert_icon.svg";
-import { ReactComponent as Comment } from "@/assets/img/comment.svg";
 
 import axiosRequest from "@/api/index";
 import { ResData, Board, BoardPassword } from "@/@types/index";
@@ -12,79 +9,18 @@ import { ReactComponent as BackIcon } from "@/assets/img/left_line.svg";
 import OptionBtn from "@/components/board/Button/OptionBtn/OptionBtn";
 import PwCheckModal from "@/components/common/PwCheckModal/PwCheckModal";
 import BoardPost from "@/components/board/BoardPost/BoardPost";
-
-import {
-  Container,
-  Header,
-  Category,
-  Main,
-  Title,
-  Content,
-  Divider,
-  FooterWrap,
-  Footer,
-  CreateDate,
-  BackBtn
-} from "./CardDetail.styles";
-import { ModalBg } from "@/components/common/MbtiTypesModal/MbtiTypesModal.styles";
-import {
-  CommentContentWrap,
-  CommentModalWrap,
-  ModalWrapCenter
-} from "@/components/board/BoardPost/BoardPost.styles";
-import { CommentContent } from "@/components/comment/CommentContent";
-import { CommentPostContent } from "@/components/comment/CommentPost";
+import CommentModal from "@/components/comment/CommentModal";
 import CommentBtn from "@/components/board/Button/CommentBtn/CommentBtn";
 
-// 모달 배경 닫기
-function ModalClose({
-  children,
-  onClose
-}: {
-  children: ReactNode;
-  onClose: () => void;
-}) {
-  const handleModalBgClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.currentTarget === e.target) {
-      onClose();
-    }
-  };
-
-  return <ModalBg onClick={handleModalBgClick}>{children}</ModalBg>;
-}
-//댓글 모달 임시
-function CommentModal({
-  onClose,
-  selectedId
-}: {
-  onClose: () => void;
-  selectedId: string;
-}) {
-  // console.log("dkdlel", selectedId);
-  return (
-    <ModalClose onClose={onClose}>
-      <CommentModalWrap>
-        {/* 모달 내용 */}
-        {/* 댓글내용 컴포넌트 */}
-        <CommentContentWrap>
-          <CommentContent boardId={selectedId} />
-        </CommentContentWrap>
-
-        {/* 댓글등록 컴포넌트 */}
-        <CommentPostContent boardId={selectedId} />
-      </CommentModalWrap>
-    </ModalClose>
-  );
-}
+import * as S from "./CardDetail.styles";
 
 export default function CardDetail() {
-  //파라미터 :selectedId 가져오기
   const { selectedId } = useParams() as { selectedId: string };
 
-  //게시글 상태
   const [posting, setPosting] = useState<Board>({} as Board);
+  const [showModal, setShowModal] = useState<string>("");
+  const [openBoardEdit, setOpenBoardEdit] = useState<boolean>(false);
 
-  //선택한 게시글 불러오기
   async function getSelectedPosting() {
     try {
       const response: ResData<Board> = await axiosRequest.requestAxios<
@@ -97,16 +33,23 @@ export default function CardDetail() {
     }
   }
 
-  //날짜 양식 맞추기
+  async function deletePosting() {
+    try {
+      const response: ResData<BoardPassword> = await axiosRequest.requestAxios<
+        ResData<BoardPassword>
+      >("delete", `/board/${selectedId}`);
+      // console.log("게시글삭제", response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const twoStringFormat = (date: number): string => {
     return date < 10 ? "0" + date.toString() : date.toString();
   };
   const changeDateFormat = (date: Date): string => {
     if (date) {
       const localDate = new Date(date);
-      // console.log("연도", localDate.getFullYear());
-      // console.log("월", localDate.getMonth() + 1);
-      // console.log("일", localDate.getDate());
       const year = localDate.getFullYear().toString();
       const month = twoStringFormat(localDate.getMonth() + 1);
       const day = twoStringFormat(localDate.getDate());
@@ -116,26 +59,17 @@ export default function CardDetail() {
     return "";
   };
 
-  //뒤로가기
   const handleBackBtnClick = () => {
     window.history.back();
   };
 
-  //모달 관리
-  const [showModal, setShowModal] = useState<string>("");
-
-  //모달 선택
   const selectModal = (modal: string) => {
     setShowModal(modal);
   };
 
-  //게시글 수정 모달
-  const [openBoardEdit, setOpenBoardEdit] = useState<boolean>(false);
-
-  //게시글 수정 모달 닫히면 새로 불러오기
-  useEffect(() => {
-    getSelectedPosting();
-  }, [openBoardEdit]);
+  const openCommentModal = () => {
+    setShowModal("CommentModal");
+  };
 
   const handleClose = () => {
     setOpenBoardEdit(false); //게시글 수정 모달 닫기
@@ -155,6 +89,11 @@ export default function CardDetail() {
     setActiveMode(active);
   };
 
+  //게시글 수정 모달 닫히면 새로 불러오기
+  useEffect(() => {
+    getSelectedPosting();
+  }, [openBoardEdit]);
+
   //수정 또는 삭제 기능
   useEffect(() => {
     if (activeMode && mode === "edit") setOpenBoardEdit(true);
@@ -164,22 +103,6 @@ export default function CardDetail() {
     }
   }, [activeMode]);
 
-  //게시글 delete요청
-  async function deletePosting() {
-    try {
-      const response: ResData<BoardPassword> = await axiosRequest.requestAxios<
-        ResData<BoardPassword>
-      >("delete", `/board/${selectedId}`);
-      // console.log("게시글삭제", response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  //댓글 모달
-  const handleCommentClick = () => {
-    setShowModal("CommentModal");
-  };
   return (
     <>
       {openBoardEdit ? (
@@ -190,7 +113,7 @@ export default function CardDetail() {
           existingPost={posting}
         />
       ) : (
-        <Container bgColor={posting.color}>
+        <S.Container bgColor={posting.color}>
           {showModal === "pwCheckModal" && (
             <PwCheckModal
               selectModal={selectModal}
@@ -198,39 +121,34 @@ export default function CardDetail() {
               checkCorrectPw={checkCorrectPw}
             />
           )}
-
-          <Header>
-            <BackBtn onClick={handleBackBtnClick}>
+          {showModal === "CommentModal" && (
+            <CommentModal
+              onClose={() => setShowModal("")}
+              selectedId={selectedId}
+            />
+          )}
+          <S.Header>
+            <S.BackBtn onClick={handleBackBtnClick}>
               <BackIcon />
-            </BackBtn>
-            <Category>{posting.category}</Category>
+            </S.BackBtn>
+            <S.Category>{posting.category}</S.Category>
             <OptionBtn selectModal={selectModal} selectMode={selectMode} />
-          </Header>
-          <Main>
-            <Title>{posting.title}</Title>
-            <Content>{posting.content}</Content>
-          </Main>
-          <FooterWrap>
-            <Divider />
-            <Footer>
-              <HeartBtn id={selectedId} like={posting.like} />
-              {/* 댓글버튼 */}
-              <CommentBtn onClick={handleCommentClick} id={selectedId} />
-              <CreateDate>{changeDateFormat(posting.createdAt)}</CreateDate>
-            </Footer>
-            {showModal !== "" && (
-              <>
-                {/* 댓글 모달 임시 */}
-                {showModal === "CommentModal" && (
-                  <CommentModal
-                    onClose={() => setShowModal("")}
-                    selectedId={selectedId}
-                  />
-                )}
-              </>
-            )}
-          </FooterWrap>
-        </Container>
+          </S.Header>
+          <S.Main>
+            <S.Title>{posting.title}</S.Title>
+            <S.Content>{posting.content}</S.Content>
+          </S.Main>
+          <S.FooterWrap>
+            <S.Divider />
+            <S.Footer>
+              <S.FooterCol>
+                <HeartBtn id={selectedId} like={posting.like} />
+                <CommentBtn onClick={openCommentModal} id={selectedId} />
+              </S.FooterCol>
+              <S.CreateDate>{changeDateFormat(posting.createdAt)}</S.CreateDate>
+            </S.Footer>
+          </S.FooterWrap>
+        </S.Container>
       )}
     </>
   );
