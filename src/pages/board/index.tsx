@@ -80,6 +80,8 @@ export default function BulletinBoard() {
     setOpenModalType("");
     const mbti = selectedMbti.join("");
     goDetailPage(mbti);
+
+    setSkipCount(0);
   };
 
   const { mbti } = useParams() as { mbti: string };
