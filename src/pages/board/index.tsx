@@ -86,27 +86,14 @@ export default function BulletinBoard() {
 
   const { mbti } = useParams() as { mbti: string };
 
-  useEffect(() => {
-    getPostings();
-    // console.log("mbti", mbti);
-  }, [mbti]);
-
   // 무한 스크롤 훅
-  const observerRef = useRef<HTMLDivElement | null>(null);
-
   const loadData = () => {
     if (disableLoadData) return;
     getPostings();
     // console.log(skipCount, "skipCount");
   };
 
-  const { setTargetRef } = useInfiniteScroll(loadData, [skipCount]);
-
-  useEffect(() => {
-    if (observerRef.current) {
-      setTargetRef(observerRef);
-    }
-  }, [observerRef, setTargetRef]);
+  const { targetRef } = useInfiniteScroll(loadData, [skipCount]);
 
   //유형별 게시글
   const boardDetail = postings
@@ -186,7 +173,7 @@ export default function BulletinBoard() {
                     />
                   ))}
               <div
-                ref={observerRef}
+                ref={targetRef}
                 style={{
                   height: "5px",
                   width: "100%",
