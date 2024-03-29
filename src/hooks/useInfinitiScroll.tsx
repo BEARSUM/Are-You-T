@@ -1,9 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
-function useInfiniteScroll(loadData: () => void, deps: any[]) {
-  const [targetRef, setTargetRef] = useState<React.RefObject<HTMLElement>>(
-    useRef(null)
-  );
+function useInfiniteScroll(loadData: () => void, deps: number[]) {
+  const targetRef = useRef<HTMLDivElement | null>(null);
 
   // IntersectionObserver 생성, 스크롤 이벤트를 감지하는 콜백 함수를 등록
   const intersectionObserver = new IntersectionObserver((entries) => {
@@ -30,10 +28,9 @@ function useInfiniteScroll(loadData: () => void, deps: any[]) {
         intersectionObserver.disconnect();
       }
     };
-  }, [targetRef, ...deps]);
+  }, deps);
 
-  // setTargetRef 함수를 반환하여, 부모 컴포넌트에서 targetRef를 설정할 수 있게
-  return { setTargetRef };
+  return { targetRef };
 }
 
 export default useInfiniteScroll;
